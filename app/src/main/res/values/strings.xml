@@ -1,0 +1,7 @@
+
+    <resources>
+        <string name="app_name">Ambition </string>
+        <string name="please_wait">Please wait…</string>
+        <string name="enter_question">Please enter a question</string>
+    </resources>
+
