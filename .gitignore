@@ -1,5 +1,6 @@
 .idea/
 *.iml
+*.log
 .gradle
 /local.properties
 /.idea/caches
@@ -9,7 +10,8 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
-/build
+.env
+/build/
 /captures
 .externalNativeBuild
 .cxx
@@ -18,4 +20,4 @@ Output APK/
 gradlew
 gradlew.bat
 dependencies.txt
-
+.gradle/
