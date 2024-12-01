@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.internal.format
 import org.json.JSONObject
 import java.io.IOException
 
@@ -14,24 +15,21 @@ class AIViewModel : ViewModel() {
 
     private val client = OkHttpClient()
 
-    // StateFlow for managing responses
     private val _response = MutableStateFlow("")
     val response: StateFlow<String> = _response
 
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading
 
-    /**
-     * Fetch response from OpenAI API
-     */
     fun getResponse(question: String, apiKey: String) {
-        _loading.value = true // Show loading state
+        _loading.value = true
+
         val url = "https://api.openai.com/v1/chat/completions"
         val requestBody = """
             {
                 "model": "gpt-3.5-turbo",
                 "messages": [
-                    {"role": "user", "content": "$question"}
+                    {"role": "user", "content": "You are an AI researcher specializing in future planning and goal setting. Please provide insights on: \"$question\""}
                 ]
             }
         """.trimIndent()
@@ -47,11 +45,13 @@ class AIViewModel : ViewModel() {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("API Error", "Failed to fetch response", e)
                 _response.value = "Error: ${e.message}"
-                _loading.value = false // Hide loading state
+                _loading.value = false
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { body ->
+                    Log.d("API response", body)
+
                     try {
                         val jsonObject = JSONObject(body)
                         val choices = jsonObject.getJSONArray("choices")
@@ -63,7 +63,7 @@ class AIViewModel : ViewModel() {
                 } ?: run {
                     _response.value = "No response received"
                 }
-                _loading.value = false // Hide loading state
+                _loading.value = false
             }
         })
     }

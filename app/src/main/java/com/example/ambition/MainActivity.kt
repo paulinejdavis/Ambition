@@ -13,11 +13,10 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    // Lazy initialization of AIViewModel
     private val aiViewModel: AIViewModel by viewModels()
 
     // Add your API key here
-    private val apiKey = "your-api-key"
+    private val apiKey = "api-key-here"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         val txtResponse = findViewById<TextView>(R.id.txtResponse)
         val idTVQuestion = findViewById<TextView>(R.id.idTVQuestion)
 
-        // Observe loading state
         lifecycleScope.launch {
             aiViewModel.loading.collectLatest { isLoading ->
                 if (isLoading) {
@@ -36,7 +34,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Observe AI response
         lifecycleScope.launch {
             aiViewModel.response.collectLatest { response ->
                 txtResponse.text = response
