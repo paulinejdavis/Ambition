@@ -15,8 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val aiViewModel: AIViewModel by viewModels()
 
-    // Add your API key here
-    private val apiKey = "api-key-here"
+    private val apiKey = BuildConfig.API_KEY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
